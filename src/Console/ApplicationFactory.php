@@ -29,7 +29,11 @@ use PackageVersions\Versions;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\SourceLocator\Ast\Locator;
+use Roave\BetterReflection\SourceLocator\SourceStubber\AggregateSourceStubber;
+use Roave\BetterReflection\SourceLocator\SourceStubber\PhpStormStubsSourceStubber;
+use Roave\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
 use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Filesystem\Filesystem;
@@ -92,10 +96,19 @@ class ApplicationFactory
         $astLocator = new Locator($phpParser);
 
         $sourceLocator = new MemoizingSourceLocator(
-            new PhpInternalSourceLocator($astLocator)
+            new PhpInternalSourceLocator(
+                $astLocator,
+                new AggregateSourceStubber(
+                    new PhpStormStubsSourceStubber($phpParser),
+                    new ReflectionSourceStubber()
+                )
+            )
         );
+
         $classReflector = new ClassReflector($sourceLocator);
 
-        return new Reflector($classReflector);
+        $functionReflector = new FunctionReflector($sourceLocator, $classReflector);
+
+        return new Reflector($classReflector, $functionReflector);
     }
 }
