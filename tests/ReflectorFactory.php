@@ -26,11 +26,16 @@ use Roave\BetterReflection\SourceLocator\Type\StringSourceLocator;
 
 final class ReflectorFactory
 {
+    /**
+     * @var AggregateSourceLocator
+     */
+    private static $sourceLocator;
+
     public static function create(string $code): Reflector
     {
         $astLocator = (new BetterReflection())->astLocator();
 
-        $sourceLocator = new AggregateSourceLocator([
+        self::$sourceLocator = self::$sourceLocator ?? new AggregateSourceLocator([
             new PhpInternalSourceLocator(
                 $astLocator,
                 new PhpStormStubsSourceStubber(
@@ -42,9 +47,9 @@ final class ReflectorFactory
             new StringSourceLocator($code, $astLocator),
         ]);
 
-        $classReflector = new ClassReflector($sourceLocator);
+        $classReflector = new ClassReflector(self::$sourceLocator);
 
-        $functionReflector = new FunctionReflector($sourceLocator, $classReflector);
+        $functionReflector = new FunctionReflector(self::$sourceLocator, $classReflector);
 
         return new Reflector($classReflector, $functionReflector);
     }
