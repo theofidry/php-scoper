@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fbebd716f7e4a63c0a27a6cda47d3ef",
+    "content-hash": "0316f9297866d53221acd71eb89ac988",
     "packages": [
         {
             "name": "jetbrains/phpstorm-stubs",
@@ -300,16 +300,16 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "3.4.0",
+            "version": "dev-php-internal",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "68f10dcfa07ad1d829fcdad9d58979800a4bd025"
+                "url": "https://github.com/kukulich/BetterReflection.git",
+                "reference": "d01dab4bc963dea6907f2605d35dc882561a654d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/68f10dcfa07ad1d829fcdad9d58979800a4bd025",
-                "reference": "68f10dcfa07ad1d829fcdad9d58979800a4bd025",
+                "url": "https://api.github.com/repos/kukulich/BetterReflection/zipball/d01dab4bc963dea6907f2605d35dc882561a654d",
+                "reference": "d01dab4bc963dea6907f2605d35dc882561a654d",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,12 @@
                     "Roave\\BetterReflection\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Roave\\BetterReflectionTest\\": "test/unit",
+                    "Roave\\BetterReflectionBenchmark\\": "test/benchmark"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -350,6 +355,11 @@
                     "homepage": "https://github.com/asgrim"
                 },
                 {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "https://ocramius.github.io/"
+                },
+                {
                     "name": "Gary Hockin",
                     "email": "gary@roave.com",
                     "homepage": "https://github.com/geeh"
@@ -358,15 +368,13 @@
                     "name": "Jaroslav Hanslík",
                     "email": "kukulich@kukulich.cz",
                     "homepage": "https://github.com/kukulich"
-                },
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "https://ocramius.github.io/"
                 }
             ],
             "description": "Better Reflection - an improved code reflection API",
-            "time": "2019-04-22T18:26:58+00:00"
+            "support": {
+                "source": "https://github.com/kukulich/BetterReflection/tree/php-internal"
+            },
+            "time": "2019-05-09T21:08:12+00:00"
         },
         {
             "name": "roave/signature",
@@ -4382,7 +4390,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "roave/better-reflection": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
