@@ -133,7 +133,7 @@ class ConfigurationFactoryTest extends FileSystemTestCase
         self::assertSame([], $configuration->getFilesWithContents());
         self::assertSame(
             [
-                $this->tmp.DIRECTORY_SEPARATOR.'file1' => [
+                'file1' => [
                     $this->tmp.DIRECTORY_SEPARATOR.'file1',
                     '',
                 ],
