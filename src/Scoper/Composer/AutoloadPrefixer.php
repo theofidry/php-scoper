@@ -207,34 +207,32 @@ final readonly class AutoloadPrefixer
      * @param string|string[]     $psr0Path
      * @param (string|string[])[] $psr4
      *
-     * @return string|string[]
+     * @return string[]
      */
-    private static function mergeNamespaces(string $psr0Namespace, array|string $psr0Path, array $psr4): array|string
+    private static function mergeNamespaces(string $psr0Namespace, array|string $psr0Path, array $psr4): array
     {
-        // Both strings
-        if (is_string($psr0Path) && is_string($psr4[$psr0Namespace])) {
-            return [$psr4[$psr0Namespace], $psr0Path];
-        }
+        $psr4Path = $psr4[$psr0Namespace];
 
-        // PSR-4 is string, and PSR-0 is array
-        if (is_array($psr0Path) && is_string($psr4[$psr0Namespace])) {
-            $psr0Path[] = $psr4[$psr0Namespace];
+        if (is_string($psr4Path)) {
+            // Both strings
+            if (is_string($psr0Path)) {
+                return [$psr4Path, $psr0Path];
+            }
+
+            // PSR-4 is string, and PSR-0 is array
+            $psr0Path[] = $psr4Path;
 
             return $psr0Path;
         }
 
         // PSR-4 is array and PSR-0 is string
-        if (is_string($psr0Path) && is_array($psr4[$psr0Namespace])) {
-            $psr4[$psr0Namespace][] = $psr0Path;
+        if (is_string($psr0Path)) {
+            $psr4Path[] = $psr0Path;
 
-            return $psr4[$psr0Namespace];
+            return $psr4Path;
         }
 
-        if (is_array($psr0Path) && is_array($psr4[$psr0Namespace])) {
-            return array_merge($psr4[$psr0Namespace], $psr0Path);
-        }
-
-        return $psr0Path;
+        return array_merge($psr4Path, $psr0Path);
     }
 
     private static function prefixLaravelProviders(
